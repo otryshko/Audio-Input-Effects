@@ -49,14 +49,14 @@ function gotStream(stream) {
     updateAnalysers();
 }
 
-function initAudio() {
+function initAudio(canvasElement) {
     
     o3djs.require('o3djs.shader');
 
     analyser1 = audioContext.createAnalyser();
     analyser1.fftSize = 1024;
 
-    analyserView1 = new AnalyserView("view1");
+    analyserView1 = new AnalyserView(canvasElement);
     analyserView1.initByteBuffer( analyser1 );
 
     if (!navigator.getUserMedia)
@@ -71,7 +71,7 @@ function initAudio() {
         });
 }
 
-window.addEventListener('load', initAudio );
+//window.addEventListener('load', initAudio );
 
 
 

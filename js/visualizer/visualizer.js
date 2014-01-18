@@ -2,8 +2,8 @@
 // WebGL Analyser
 //
 
-AnalyserView = function(canvasElementID) {
-    this.canvasElementID = canvasElementID;
+AnalyserView = function(canvasElement) {
+    this.canvasElement = canvasElement;
     
     // NOTE: the default value of this needs to match the selected radio button
 
@@ -33,7 +33,7 @@ AnalyserView.prototype.initGL = function() {
     
     var backgroundColor = this.backgroundColor;
 
-    var canvas = document.getElementById(this.canvasElementID);
+    var canvas = this.canvasElement;
     this.canvas = canvas;
     
     var gl = canvas.getContext("experimental-webgl");
