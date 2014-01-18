@@ -2,23 +2,17 @@
 <html>
 <head>
 	<title>Live input effects</title>
-    <script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>
+    <script src="js/AudioContextMonkeyPatch.js"></script>
 
-	<script src="js/effect.js"></script>
-	<script src="js/waveshaper.js"></script>
-	<script src="js/jungle.js"></script>
-	<script src="js/effects.js"></script>
-	<script src="js/pingpong.js"></script>
+    <script src="js/effects.js"></script>
 
 	<!-- Visualizer stuff -->
 	<script src="js/visualizer/events.js"></script>
 
-	<!-- WebGL stuff -->
+    
+    <!-- WebGL stuff -->
 	<script src="js/visualizer/base.js"></script>
-	<script src="js/visualizer/cameracontroller.js"></script>
 
-	<!-- TODO(kbr): remove this dependency -->
-	<script src="js/visualizer/matrix4x4.js"></script>
 
 	<!-- Visualizer GL library -->
 	<script src="js/visualizer/visualizer.js"></script>
@@ -43,9 +37,9 @@
 		onmousedown="analyserView1.setAnalysisType(ANALYSISTYPE_FREQUENCY); analyserView2.setAnalysisType(ANALYSISTYPE_FREQUENCY);">Frequency
 		<input type="radio" name="radioSet" value="data" 
 		onmousedown="analyserView1.setAnalysisType(ANALYSISTYPE_SONOGRAM); analyserView2.setAnalysisType(ANALYSISTYPE_SONOGRAM);">Sonogram
-		<input type="radio" name="radioSet" value="data" checked="checked" 
-		onmousedown="analyserView1.setAnalysisType(ANALYSISTYPE_3D_SONOGRAM); analyserView2.setAnalysisType(ANALYSISTYPE_3D_SONOGRAM);">3D Sonogram
 		<input type="radio" name="radioSet" value="data" 
+		onmousedown="analyserView1.setAnalysisType(ANALYSISTYPE_3D_SONOGRAM); analyserView2.setAnalysisType(ANALYSISTYPE_3D_SONOGRAM);">3D Sonogram
+		<input type="radio" name="radioSet" value="data" checked="checked" 
 		onmousedown="analyserView1.setAnalysisType(ANALYSISTYPE_WAVEFORM); analyserView2.setAnalysisType(ANALYSISTYPE_WAVEFORM);">Waveform
 	</div>
 	<div id="effectMix">Effect: <select id="effect" onchange="changeEffect(this.selectedIndex);">

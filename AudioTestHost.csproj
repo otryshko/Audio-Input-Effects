@@ -63,17 +63,12 @@
     <Content Include="Default.aspx" />
     <Content Include="img\forkme.png" />
     <Content Include="index.html" />
-    <Content Include="js\effect.js" />
+    <Content Include="js\AudioContextMonkeyPatch.js" />
     <Content Include="js\effects.js" />
-    <Content Include="js\jungle.js" />
-    <Content Include="js\pingpong.js" />
     <Content Include="js\visualizer\base.js" />
-    <Content Include="js\visualizer\cameracontroller.js" />
     <Content Include="js\visualizer\events.js" />
-    <Content Include="js\visualizer\matrix4x4.js" />
     <Content Include="js\visualizer\shader.js" />
     <Content Include="js\visualizer\visualizer.js" />
-    <Content Include="js\waveshaper.js" />
     <Content Include="res\Default.js" />
     <Content Include="res\jquery-1.8.2.min.js" />
     <Content Include="small.mp4" />
@@ -97,10 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="shaders\common-vertex.shader" />
-    <Content Include="shaders\frequency-fragment.shader" />
-    <Content Include="shaders\sonogram-fragment.shader" />
-    <Content Include="shaders\sonogram-vertex.shader" />
-    <Content Include="shaders\texture-only.shader" />
     <Content Include="shaders\waveform-fragment.shader" />
     <Content Include="sounds\irHall.ogg" />
     <None Include="Web.Debug.config">
