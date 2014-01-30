@@ -1,6 +1,7 @@
 ﻿namespace AudioTestHost
 {
     using SharpKit.Html;
+    using SharpKit.Html.fileapi;
     using SharpKit.JavaScript;
     using SharpKit.jQuery;
 
@@ -8,24 +9,32 @@
     public class AudioService
     {
         private HtmlElement canvas;
-
+        private bool audioIsActive = false;
         public void VisualizeTo(jQuery canvas)
         {
             this.canvas = canvas[0];
         }
         public void Start()
         {
-            JsContext.JsCode("initAudio(this.canvas);");
-            //HtmlContext.window.alert("start clicked");
+            if (!audioIsActive)
+            {
+                JsContext.JsCode("initAudio(this.canvas);");
+                audioIsActive = true;
+            }
+            else
+            {
+                JsContext.JsCode("updateAnalysers();");
+            }
         }
         public void Stop()
         {
-            HtmlContext.window.alert("stop clicked");
+            JsContext.JsCode("cancelAnalyserUpdates();recorder.stop();");
         }
-        public void ExportToWAV()
+        public void ExportToWAV(JsAction<Blob> wavBlob)
         {
-            HtmlContext.window.alert("ExportToWAV clicked");
+            var r = HtmlContext.window.As<dynamic>().recorder;
+            //JsAction<Blob> exportCallback = (b) => { HtmlContext.window.alert(b.size.As<JsString>()); };
+            r.exportWAV(wavBlob);
         }
-
     }
 }

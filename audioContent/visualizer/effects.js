@@ -1,16 +1,19 @@
-var audioContext = new AudioContext();
+var audioContext;
 var audioInput = null;
 var rafID = null;
 var analyser1;
 var analyserView1;
+var recorder;
+var contentFolder = "";
+var onAudioProcessCallback;
 
-function convertToMono( input ) {
+function convertToMono(input) {
     var splitter = audioContext.createChannelSplitter(2);
     var merger = audioContext.createChannelMerger(2);
 
-    input.connect( splitter );
-    splitter.connect( merger, 0, 0 );
-    splitter.connect( merger, 0, 1 );
+    input.connect(splitter);
+    splitter.connect(merger, 0, 0);
+    splitter.connect(merger, 0, 1);
     return merger;
 }
 
@@ -18,16 +21,16 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequ
 window.cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame;
 
 function cancelAnalyserUpdates() {
-    window.cancelAnimationFrame( rafID );
+    window.cancelAnimationFrame(rafID);
     rafID = null;
 }
 
 function updateAnalysers(time) {
-    analyserView1.doFrequencyAnalysis( analyser1 );
-    rafID = window.requestAnimationFrame( updateAnalysers );
+    analyserView1.doFrequencyAnalysis(analyser1);
+    rafID = window.requestAnimationFrame(updateAnalysers);
 }
 
-var lpInputFilter=null;
+var lpInputFilter = null;
 
 // this is ONLY because we have massive feedback without filtering out
 // the top end in live speaker scenarios.
@@ -40,38 +43,40 @@ function createLPInputFilter(output) {
 function gotStream(stream) {
     // Create an AudioNode from the stream.
     var input = audioContext.createMediaStreamSource(stream);
+    recorder = new Recorder(input, { workerPath: contentFolder + "/recorderjs/recorderWorker.js", onAudioProcessCallback: onAudioProcessCallback });
+    recorder.record();
 
-    audioInput = convertToMono( input );
+    audioInput = convertToMono(input);
 
-    audioInput.connect( createLPInputFilter() );
+    audioInput.connect(createLPInputFilter());
     audioInput = lpInputFilter;
     audioInput.connect(analyser1);
     updateAnalysers();
 }
 
-function initAudio(canvasElement) {
-    
+function initAudio(canvasElement, rootFolder) {
+
+    contentFolder = rootFolder || "audioContent";
+    audioContext = new AudioContext();
     o3djs.require('o3djs.shader');
 
     analyser1 = audioContext.createAnalyser();
     analyser1.fftSize = 1024;
 
-    analyserView1 = new AnalyserView(canvasElement);
-    analyserView1.initByteBuffer( analyser1 );
+    analyserView1 = new AnalyserView(canvasElement, contentFolder);
+    analyserView1.initByteBuffer(analyser1);
 
     if (!navigator.getUserMedia)
         navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
     if (!navigator.getUserMedia)
-        return(alert("Error: getUserMedia not supported!"));
+        return (alert("Error: getUserMedia not supported!"));
 
-    navigator.getUserMedia({audio:true}, gotStream, function(e) {
-            alert('Error getting audio');
-            console.log(e);
-        });
+    navigator.getUserMedia({ audio: true }, gotStream, function (e) {
+        alert('Error getting audio');
+        console.log(e);
+    });
 }
-
-//window.addEventListener('load', initAudio );
 
 
 

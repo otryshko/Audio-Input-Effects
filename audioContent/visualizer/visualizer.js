@@ -2,7 +2,8 @@
 // WebGL Analyser
 //
 
-AnalyserView = function(canvasElement) {
+AnalyserView = function (canvasElement, rootFolder) {
+    rootFolder = rootFolder || "";
     this.canvasElement = canvasElement;
     
     // NOTE: the default value of this needs to match the selected radio button
@@ -25,12 +26,13 @@ AnalyserView = function(canvasElement) {
                            165.0 / 255.0,
                            255.0 / 255.0,
                            1.0];
-    this.initGL();
+    this.initGL(rootFolder);
 }
 
 
-AnalyserView.prototype.initGL = function() {
-    
+AnalyserView.prototype.initGL = function(rootFolder) {
+
+    rootFolder = rootFolder || "";
     var backgroundColor = this.backgroundColor;
 
     var canvas = this.canvasElement;
@@ -73,7 +75,7 @@ AnalyserView.prototype.initGL = function() {
         gl.bufferSubData(gl.ARRAY_BUFFER, vboTexCoordOffset, texCoords);
 
     // Load the shaders
-    o3djs.shader.asyncLoadFromURL(gl, "shaders/common-vertex.shader", "shaders/waveform-fragment.shader",
+    o3djs.shader.asyncLoadFromURL(gl, rootFolder + "/shaders/common-vertex.shader", rootFolder + "/shaders/waveform-fragment.shader",
         function( shader ) {this.waveformShader = shader; }.bind(this));
 
 }

@@ -4,6 +4,7 @@ if (typeof(AudioTestHost) == "undefined")
 AudioTestHost.AudioService = function ()
 {
     this.canvas = null;
+    this.audioIsActive = false;
 };
 AudioTestHost.AudioService.prototype.VisualizeTo = function (canvas)
 {
@@ -11,15 +12,24 @@ AudioTestHost.AudioService.prototype.VisualizeTo = function (canvas)
 };
 AudioTestHost.AudioService.prototype.Start = function ()
 {
-     initAudio(this.canvas);;
+    if (!this.audioIsActive)
+    {
+         initAudio(this.canvas);;
+        this.audioIsActive = true;
+    }
+    else
+    {
+         updateAnalysers();;
+    }
 };
 AudioTestHost.AudioService.prototype.Stop = function ()
 {
-    window.alert("stop clicked");
+     cancelAnalyserUpdates();recorder.stop();;
 };
-AudioTestHost.AudioService.prototype.ExportToWAV = function ()
+AudioTestHost.AudioService.prototype.ExportToWAV = function (wavBlob)
 {
-    window.alert("ExportToWAV clicked");
+    var r = window.recorder;
+    r.exportWAV(wavBlob);
 };
 function DefaultClient_Load()
 {

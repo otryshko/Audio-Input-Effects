@@ -60,15 +60,23 @@
     <Reference Include="SharpKit.jQuery" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="audioContent\recorderjs\encoderWorker.js" />
+    <Content Include="audioContent\recorderjs\libmp3lame.js" />
+    <Content Include="audioContent\speex\audio.js" />
+    <Content Include="audioContent\speex\bitstring.js" />
+    <Content Include="audioContent\speex\pcmdata.min.js" />
+    <Content Include="audioContent\speex\speex.js" />
     <Content Include="Default.aspx" />
     <Content Include="img\forkme.png" />
     <Content Include="index.html" />
-    <Content Include="js\AudioContextMonkeyPatch.js" />
-    <Content Include="js\effects.js" />
-    <Content Include="js\visualizer\base.js" />
-    <Content Include="js\visualizer\events.js" />
-    <Content Include="js\visualizer\shader.js" />
-    <Content Include="js\visualizer\visualizer.js" />
+    <Content Include="audioContent\visualizer\AudioContextMonkeyPatch.js" />
+    <Content Include="audioContent\visualizer\effects.js" />
+    <Content Include="audioContent\recorderjs\recorder.js" />
+    <Content Include="audioContent\recorderjs\recorderWorker.js" />
+    <Content Include="audioContent\visualizer\base.js" />
+    <Content Include="audioContent\visualizer\events.js" />
+    <Content Include="audioContent\visualizer\shader.js" />
+    <Content Include="audioContent\visualizer\visualizer.js" />
     <Content Include="res\Default.js" />
     <Content Include="res\jquery-1.8.2.min.js" />
     <Content Include="small.mp4" />
@@ -92,8 +100,8 @@
     <Compile Include="DefaultClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="shaders\common-vertex.shader" />
-    <Content Include="shaders\waveform-fragment.shader" />
+    <Content Include="audioContent\shaders\common-vertex.shader" />
+    <Content Include="audioContent\shaders\waveform-fragment.shader" />
     <Content Include="sounds\irHall.ogg" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -102,7 +110,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="js\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
