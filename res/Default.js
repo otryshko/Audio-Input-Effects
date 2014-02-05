@@ -31,6 +31,11 @@ AudioTestHost.AudioService.prototype.ExportToWAV = function (wavBlob)
     var r = window.recorder;
     r.exportWAV(wavBlob);
 };
+AudioTestHost.AudioService.prototype.ExportSamples = function (wavBlob)
+{
+    var r = window.recorder;
+    r.exportSamples(wavBlob);
+};
 function DefaultClient_Load()
 {
     $(document.body).append("Ready<br/>");

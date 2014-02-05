@@ -100,8 +100,13 @@ function encodeFile (file) {
 	spxcodec.bits_size = isNarrowband ? 15 : 70;
 
 	performance.mark("encodeStart");
-	 // samples
+    // samples
+    
+	var encodingStartedAt = new Date().getTime();
+
 	spxdata = spxcodec.encode(pcm.samples, true);
+
+	console.log('Encoding (ms): ' + (new Date().getTime() - encodingStartedAt));
 
 	spxhdr = new SpeexHeader({
 		bitrate: -1,
@@ -128,7 +133,10 @@ function encodeFile (file) {
 	  , vendor_length: spxcmt.length
 	});
 
+	var muxingStartedAt = new Date().getTime();
 	r = oggdata.mux([spxhdr.raw, spxcmt.raw, spxdata]);
+	console.log('Muxing (ms): ' + (new Date().getTime() - muxingStartedAt));
+
 	performance.mark("encodeEnd");
 	performance.measure("encode", "encodeStart", "encodeEnd");
 	return r;

@@ -6555,8 +6555,8 @@ Ogg.prototype.mux = function (d, o) {
 	// data page
 	var data = d[2];
 	var segments = data[1].chunk(100)
-	  , stream = String.fromCharCode.apply(null,
-	  		new Uint8Array(data[0].buffer))
+	  /*, stream = String.fromCharCode.apply(null,
+	  		new Uint8Array(data[0].buffer))*/
 	  , a = 0
 	  , b = 0
 	  , len = segments.length;
@@ -6566,7 +6566,8 @@ Ogg.prototype.mux = function (d, o) {
 		b += frames(segchunk);
 
 		p = this.createPage(OggPageData(segchunk));
-		str += hdrup(p, stream.substring(a, b));
+	    var block = String.fromCharCode.apply(null, new Uint8Array(data[0].buffer.slice(a,b)));
+		str += hdrup(p, block);
 
 		a = b;
 	}

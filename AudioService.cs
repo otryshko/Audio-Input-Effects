@@ -36,5 +36,11 @@
             //JsAction<Blob> exportCallback = (b) => { HtmlContext.window.alert(b.size.As<JsString>()); };
             r.exportWAV(wavBlob);
         }
+        public void ExportSamples(JsAction<JsObject> wavBlob)
+        {
+            var r = HtmlContext.window.As<dynamic>().recorder;
+            //JsAction<Blob> exportCallback = (b) => { HtmlContext.window.alert(b.size.As<JsString>()); };
+            r.exportSamples(wavBlob);
+        }
     }
 }

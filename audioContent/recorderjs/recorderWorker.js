@@ -12,9 +12,12 @@ this.onmessage = function(e){
       record(e.data.buffer);
       break;
     case 'exportWAV':
-      exportWAV(e.data.type);
-      break;
-    case 'getBuffer':
+        exportWAV(e.data.type);
+        break;
+    case 'exportSamples':
+        exportSamples();
+        break;
+      case 'getBuffer':
       getBuffer();
       break;
     case 'clear':
@@ -33,14 +36,25 @@ function record(inputBuffer){
   recLength += inputBuffer[0].length;
 }
 
-function exportWAV(type){
-  var bufferL = mergeBuffers(recBuffersL, recLength);
-  var bufferR = mergeBuffers(recBuffersR, recLength);
-  var interleaved = interleave(bufferL, bufferR);
-  var dataview = encodeWAV(interleaved);
-  var audioBlob = new Blob([dataview], { type: type });
+function exportWAV(type) {
+    var bufferL = mergeBuffers(recBuffersL, recLength);
+    var bufferR = mergeBuffers(recBuffersR, recLength);
+    var interleaved = interleave(bufferL, bufferR);
+    var dataview = encodeWAV(interleaved);
+    var audioBlob = new Blob([dataview], { type: type });
 
-  this.postMessage(audioBlob);
+    this.postMessage(audioBlob);
+}
+function exportSamples() {
+    var bufferL = mergeBuffers(recBuffersL, recLength);
+    var bufferR = mergeBuffers(recBuffersR, recLength);
+    var interleaved = interleave(bufferL, bufferR);
+    
+    var buffer = new ArrayBuffer(interleaved.length * 2);
+    var view = new DataView(buffer);
+    floatTo16BitPCM(view, 0, interleaved);
+
+    this.postMessage(view);
 }
 
 function getBuffer() {

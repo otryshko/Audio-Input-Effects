@@ -1,6 +1,6 @@
 (function (window) {
 
-  var WORKER_PATH = 'js/recorderjs/recorderWorker.js';
+  var WORKER_PATH = 'js/recorderjs/recorderWorker.js?v=1';
 
   var Recorder = function(source, cfg){
     var config = cfg || {};
@@ -72,6 +72,18 @@
             worker.postMessage({
                 command: 'exportWAV',
                 type: type
+            });
+        });
+    }
+    this.exportSamples = function (cb, type) {
+
+        this.getBuffer(function (buffer) {
+            window.audioBffers = buffer;
+            currCallback = cb || config.callback;
+            type = type || config.type || 'audio/wav';
+            if (!currCallback) throw new Error('Callback not set');
+            worker.postMessage({
+                command: 'exportSamples'
             });
         });
     }
