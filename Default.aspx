@@ -31,9 +31,9 @@
         var lastWavAudio, lastMp3Audio, lastMp3Audio1, lastMp3Audio2, lastOggAudio;
         var recBuffer = [], recBuffer1 = [], recBuffer2 = [];
         var mp3Length = 0, mp3Length1 = 0, mp3Length2 = 0, wavSize = 0, wavSize2 = 0, mp3size = 0;
-        window.audioService = new AudioTestHost.AudioService();
+        window.audioService = new AudioTestHost.AudioService("audioContent");
         window.audioService.VisualizeTo($("#view1"));
-        
+        /*
         var requestCounter2 = 0;
         var responseCounter2 = 0;
         var encoderWorker2 = new Worker('audioContent/recorderjs/encoderWorker.js');
@@ -82,7 +82,7 @@
             requestCounter2++;
             wavSize2 += leftBuffer.length + rightBuffer.length;
         };
-
+        */
         function onSamples(samples) {
             console.log("wav samples " + samples.buffer.byteLength);
 
@@ -403,14 +403,25 @@
         function timerStop() {
             window.clearTimeout(timerId);
         }
-        
 
+        function exportToMp3() {
+            window.audioService.ExportToMp3(function (mp3blob2) {
+                var mp3Url2 = URL.createObjectURL(mp3blob2);
+
+                console.log("audio service: mp3Url: " + mp3Url2);
+                lastMp3Audio2 = $("<video/>");
+                lastMp3Audio2.attr("type", "audio/mp3");
+                lastMp3Audio2.attr("src", mp3Url2);
+                $(document).append(lastMp3Audio2);
+            });
+        }
 
     </script>
-    <button onclick="window.audioService.Start();timerStart();">Start</button>
+    <button onclick="window.audioService.Start(function (){timerStart();});">Start</button>
     <button onclick="window.audioService.Stop();timerStop();">Stop</button>
     <button onclick="window.audioService.ExportToWAV(onNewAudioBlob);">Export to WAV</button>
     <button onclick="window.audioService.ExportSamples(onSamples);">Export Samples</button>
+    <button onclick="exportToMp3();">Export To MP3</button>
     <button onclick="lastWavAudio[0].play();">Play WAV</button>
     <button onclick="lastMp3Audio[0].play();">Play MP3</button>
     <button onclick="lastMp3Audio1[0].play();">Play MP3 1</button>
